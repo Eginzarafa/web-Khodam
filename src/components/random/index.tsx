@@ -8,9 +8,9 @@ function Index() {
     nama_khodam: string;
     deskripsi: string;
     akan_muncul: string;
-  }| null>(null);
+  } | null>(null);
   const [nama, setNama] = useState("");
-  const nameInputRef = useRef(null);
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   function showRandom() {
@@ -21,13 +21,15 @@ function Index() {
       setLoading(false);
     }, 1000);
 
-    const nameValue = nameInputRef.current.value;
-    if (nameValue) {
-      setKhodam(random);
-    } else {
-      alert("Masukan Nama Dulu...");
+    if (nameInputRef.current) {
+      const nameValue = nameInputRef.current.value;
+      if (nameValue) {
+        setKhodam(random);
+      } else {
+        alert("Masukan Nama Dulu...");
+      }
+      setNama(nameValue);
     }
-    setNama(nameValue);
   }
 
   return (
@@ -59,7 +61,7 @@ function Index() {
         </Button>
       </Space>
 
-      {nama !== "" && (
+      {nama !== "" && khodam && (
         <Flex gap="middle" align="center" vertical>
           <Row gutter={16}>
             <Col span={8}>
